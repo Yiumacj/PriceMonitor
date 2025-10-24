@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-public class SteamApi {
+public class steamApi {
 
     public static AppInfo getGameInfo(int gameId, String region) {
         try {
