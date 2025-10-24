@@ -1,8 +1,11 @@
 import view.ConsoleView;
 
-class Main {
-    public static void main(String[] args) {
-        ConsoleView bot = new ConsoleView();
-        bot.start();
-    }
+void main() {
+    /*Todo
+    + Add logger
+    + Add tests
+    + Dataclasses refactor
+     */
+    ConsoleView bot = new ConsoleView();
+    bot.start();
 }

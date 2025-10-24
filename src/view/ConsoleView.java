@@ -30,7 +30,7 @@ public class ConsoleView {
     }
 
     private void add(String link) {
-        AddQueryStatus result = consolePresenter.addGame(link).Result;
+        AddQueryStatus result = consolePresenter.addGame(link).getResult();
         switch (result) {
             case OK:
                 System.out.println("Ссылка успешно добавлена!");
@@ -43,18 +43,17 @@ public class ConsoleView {
             case ALREADY_EXISTS:
                 System.out.println("Эта игра уже отслеживается");
                 break;
-
             default:
                 break;
         }
     }
 
     private void get(String sid){
-        System.out.println(Integer.toString(consolePresenter.getGamePrice(sid).Result.price));
+        System.out.println(Integer.toString(consolePresenter.getGamePrice(sid).getResult().price));
     }
 
     private void check() {
-        ArrayList<ItemCostDifference> diffs = consolePresenter.getGamesDiff().Result;
+        ArrayList<ItemCostDifference> diffs = consolePresenter.getGamesDiff().getResult();
 
         if (diffs.isEmpty()) {
             System.out.println("Цены на отслеживаемые игры не изменились");
@@ -64,13 +63,12 @@ public class ConsoleView {
             System.out.println("Изменилась цена на https://store.steampowered.com/app/" + Integer.toString(diff.id));
             if (diff.newPrice < diff.oldPrice) {
                 System.out.println("Цена упала на " + Integer.toString(diff.newPrice - diff.oldPrice) + "рублей.");
-
             }
             else {
                 System.out.println("Цена выросла на " + Integer.toString(diff.oldPrice - diff.newPrice) + "рублей.");
             }
             System.out.println("Новая цена: " + Integer.toString(diff.newPrice) + "рублей.");
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -83,11 +81,7 @@ public class ConsoleView {
             String[] words = text.split("\\s+");
 
             switch (words[0]) {
-                case "/start":
-                    this.help();
-                    break;
-
-                case "/help":
+                case "/start", "/help":
                     this.help();
                     break;
 
@@ -98,6 +92,7 @@ public class ConsoleView {
                 case "/check":
                     this.check();
                     break;
+
                 case "/get":
                     this.get(words[1]);
                     break;

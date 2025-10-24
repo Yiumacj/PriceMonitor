@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import model.DataBaseModel;
 import model.DataClasses.*;
-import service.SteamAppInfo;
+import service.SteamApi;
 
 public class ConsolePresenter {
     private DataBaseModel dataBaseModel;
@@ -16,7 +16,9 @@ public class ConsolePresenter {
     public Result<AddQueryStatus> addGame(String link) {
         String[] words = link.split("/");
         int appId = Integer.parseInt(words[4]);
-        AppInfo info = SteamAppInfo.getGameInfo(appId, "RU");
+
+        AppInfo info = SteamApi.getGameInfo(appId, "RU").getResult();
+        assert info != null;
         PriceInfo priceInfo = info.getPriceInfo();
         double price = priceInfo.getFinalPrice();
 
@@ -28,7 +30,6 @@ public class ConsolePresenter {
     }
 
     public Result< ArrayList<ItemCostDifference>> getGamesDiff() {
-        //Должен возвращать инфу обо всех играх с изменившейся ценой
         return new Result<ArrayList<ItemCostDifference>>(
                 ResultStatus.OK,
                 new ArrayList<ItemCostDifference>()
