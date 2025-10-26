@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import interfaces.view.IView;
-import presenter.Presenter;
+import presenter.presenter;
 
 public class ConsoleView implements IView {
 
-    private final Presenter presenter;
+    private final presenter presenter;
 
     public ConsoleView() {
-        presenter = new Presenter();
+        presenter = new presenter();
         presenter.setView(this);
     }
 

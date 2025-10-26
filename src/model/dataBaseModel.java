@@ -1,60 +1,26 @@
 package model;
 
-import model.DataClasses.AppInfo;
-import model.DataClasses.PriceInfo;
-
-import java.util.ArrayList;
+import interfaces.model.IDataBaseItem;
 
 public class dataBaseModel {
-    // Плейсхолдер TODO заменить на нормальную бдшку
+    private final dataBaseConnectorModel source;
 
-    private final ArrayList<AppInfo> monitoredGames = new ArrayList<>();
-
-    private AppInfo findItemById(int id) {
-        for (AppInfo game: monitoredGames) {
-            if (game.getGameId() == id) {
-                return game;
-            }
-        }
-        return null;
+    public dataBaseModel(String server, String user, String password) {
+        source = new dataBaseConnectorModel(server, user, password);
     }
 
-    public AppInfo getById(int id) {
-        return this.findItemById(id);
+    public boolean updateByItem(IDataBaseItem updatedItem, String tableName) {
+        return source.update(updatedItem, tableName);
     }
 
-    public boolean updateById(int id, int newPrice) {
-        AppInfo game = this.findItemById(id);
-        if (game == null) {
-            return false;
-        }
-        monitoredGames.remove(game);
-        monitoredGames.add(
-                new AppInfo(game.getGameId(), game.getName(), game.isFree(), game.getDescription(),
-                new PriceInfo(
-                        newPrice,
-                        game.getPriceInfo().getInitialPrice(),
-                        game.getPriceInfo().getDiscountPercent(),
-                        game.getPriceInfo().getCurrency()
-                ))
-        );
-        return true;
+    public boolean deleteByItem(IDataBaseItem item, String tableName) {
+        return source.delete(item, tableName);
     }
 
-    public boolean deleteById(int id) {
-        AppInfo game = this.findItemById(id);
-        if (game == null) {
-            return false;
-        }
-        monitoredGames.remove(game);
-        return true;
+    public boolean addByItem(IDataBaseItem item, String tableName) {
+        return source.insert(item, tableName);
     }
-
-    public boolean add(AppInfo game) {
-        if (this.findItemById(game.getGameId()) != null) {
-            return false; // кал какой-то, но это все равно плейсхолдер
-        }
-        this.monitoredGames.add(game);
-        return true;
+    public <T extends IDataBaseItem> T getById(Class<T> clazz,int id, String tableName) {
+        return source.get(clazz, tableName, id);
     }
 }
