@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import interfaces.view.IView;
 import model.dataBaseModel;
@@ -12,17 +11,16 @@ import model.DataClasses.*;
 import service.steamApi;
 
 public class presenter {
-    private final dataBaseModel steamDB, steamDifferenceDB;
+    private final dataBaseModel steamDB;
     private IView view;
     public presenter(){
         String[] dbcfg;
         try {
-            dbcfg = Files.readAllLines(Paths.get("C:\\CFG_OOP\\configDB.txt")).get(0).split(";");
+            dbcfg = Files.readAllLines(Paths.get("C:\\CFG_OOP\\configDB.txt")).getFirst().split(";");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         steamDB = new dataBaseModel(dbcfg[0], dbcfg[1], dbcfg[2]);
-        steamDifferenceDB = new dataBaseModel("SteamDifferenceDB","","");
     }
 
     public void setView(IView view) {
@@ -49,7 +47,12 @@ public class presenter {
     private void cmdCheck(String arg){
 
         ArrayList<String>msg = new ArrayList<>();
-        msg.add("Not released yet.");
+        appInfo app = steamDB.getById(appInfo.class, Integer.parseInt(arg), "appinfo");
+        priceInfo price = app.getPriceInfo();
+        msg.add("Текущая цена: "+price.getFinalPrice()+" "+price.getCurrency());
+        msg.add("Начальная цена: "+price.getInitialPrice()+" "+price.getCurrency());
+        msg.add("Разница цены: "+(price.getInitialPrice()-price.getFinalPrice())+" "+price.getCurrency());
+        msg.add("Скидка на "+app.getName()+" составляет "+price.getDiscountPercent() +"%");
         view.showMessage(msg);
     }
 
@@ -73,7 +76,7 @@ public class presenter {
         msg.add("Привет! Я - бот, мониторящий цены на игры в Steam");
         msg.add("Вот список моих команд:");
         msg.add("/add <ссылка> - отправь мне ссылку на страницу игры, и я начну следить за её ценой");
-        msg.add("/check - Расскажу тебе обо всех изменениях цен (Временно не реализованно)");
+        msg.add("/check - Расскажу тебе обо всех изменениях цен");
         msg.add("/get - Cкажу тебе текущую цену товара");
         msg.add("/del - Удалю товар из базы");
         view.showMessage(msg);
@@ -101,10 +104,21 @@ public class presenter {
             }
         }
     }
+    protected int SteamLinkToAppId(String steamLink){
+        steamLink = steamLink.trim();
+        int appId;
+        try {
+            appId = Integer.parseInt(steamLink);
+        }
+        catch (Exception e){
+            String[] words = steamLink.split("/");
+            appId = Integer.parseInt(words[4]);
+        }
+        return appId;
+    }
 
     private addQueryStatus addGame(String link) {
-        String[] words = link.split("/");
-        int appId = Integer.parseInt(words[4]);
+        int appId = this.SteamLinkToAppId(link);
 
         appInfo info = steamApi.getGameInfo(appId, "RU");
         if (info == null) {

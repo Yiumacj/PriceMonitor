@@ -7,9 +7,10 @@ import model.DataClasses.priceInfo;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class steamApi {
-
+    private static int mod = (int)1e9+7;
     public static appInfo getGameInfo(int gameId, String region) {
         try {
             String urlString = "https://store.steampowered.com/api/appdetails?appids=" + gameId + "&cc=" + region;
@@ -55,7 +56,7 @@ public class steamApi {
 
             priceInfo priceInfo = null;
             if (!isFree && json.contains("\"price_overview\"")) {
-                priceInfo = extractPriceInfo(gameId, json);
+                priceInfo = extractPriceInfo(json);
             }
 
             return new appInfo(gameId, name, isFree, description, priceInfo);
@@ -83,7 +84,7 @@ public class steamApi {
         return json.substring(valueStart, json.indexOf(",", valueStart));
     }
 
-    private static priceInfo extractPriceInfo(int id, String json) {
+    private static priceInfo extractPriceInfo(String json) {
         try {
             int priceStart = json.indexOf("\"price_overview\"");
             if (priceStart == -1) return null;
@@ -96,6 +97,8 @@ public class steamApi {
             int discount = discountStr != null ? Integer.parseInt(discountStr) : 0;
             double initialPrice = initialPriceStr != null ? Double.parseDouble(initialPriceStr) / 100 : -1;
             double finalPrice = finalPriceStr != null ? Double.parseDouble(finalPriceStr) / 100 : -1;
+
+            int id = UUID.randomUUID().hashCode()%mod;
 
             return new priceInfo(id, finalPrice, initialPrice, discount, currency);
         } catch (Exception e) {
