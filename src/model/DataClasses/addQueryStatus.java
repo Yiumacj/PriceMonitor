@@ -1,6 +1,6 @@
 package model.DataClasses;
 
-public enum AddQueryStatus
+public enum addQueryStatus
 {
     OK,
     INVALID_LINK,
