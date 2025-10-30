@@ -38,8 +38,8 @@ public class ConsoleView implements IView {
     public void run() {
         presenter.feedCommand(new String[]{"/start"});
         Scanner scanner = new Scanner(System.in);
+        
         while (true) {
-
             String input = scanner.nextLine().trim();
             String[] cmd = input.split("\\s+");
             presenter.feedCommand(cmd);

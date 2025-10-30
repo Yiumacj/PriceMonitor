@@ -1,9 +1,9 @@
 package test;
 
 import model.DataClasses.AppInfo;
-import model.dataBaseModel;
+import model.DataBaseModel;
 import org.junit.jupiter.api.Test;
-import service.steamApi;
+import service.SteamApi;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,9 +12,9 @@ public class essentialTesting {
     @Test
     public void dbTest(){
         IO.println("Database testing");
-        dataBaseModel  db = new dataBaseModel();
+        DataBaseModel  db = new DataBaseModel();
 
-        AppInfo dataTest = steamApi.getGameInfo(1190000, "RU");
+        AppInfo dataTest = SteamApi.getGameInfo(1190000, "RU");
         assertNotNull(dataTest);
         assertTrue(db.add(dataTest));
         assertFalse(db.add(dataTest));

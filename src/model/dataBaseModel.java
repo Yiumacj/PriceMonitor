@@ -5,7 +5,7 @@ import model.DataClasses.PriceInfo;
 
 import java.util.ArrayList;
 
-public class dataBaseModel {
+public class DataBaseModel {
     // Плейсхолдер TODO заменить на нормальную бдшку
 
     private final ArrayList<AppInfo> monitoredGames = new ArrayList<>();
@@ -52,7 +52,7 @@ public class dataBaseModel {
 
     public boolean add(AppInfo game) {
         if (this.findItemById(game.getGameId()) != null) {
-            return false; // кал какой-то, но это все равно плейсхолдер
+            return false;
         }
         this.monitoredGames.add(game);
         return true;

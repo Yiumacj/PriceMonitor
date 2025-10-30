@@ -3,43 +3,45 @@ package presenter;
 import java.util.ArrayList;
 
 import interfaces.view.IView;
-import model.dataBaseModel;
+import model.DataBaseModel;
 import model.DataClasses.*;
-import service.steamApi;
+import service.SteamApi;
 
 public class Presenter {
-    private final dataBaseModel dataBaseModel;
+    private final DataBaseModel dataBaseModel;
     private IView view;
     public Presenter(){
-        dataBaseModel = new dataBaseModel();
+        dataBaseModel = new DataBaseModel();
     }
 
     public void setView(IView view) {
         this.view = view;
     }
 
-    private void cmdAdd(String arg){
-        AddQueryStatus query =  addGame(arg);
+    private void cmdAdd(String link){
+        AddQueryStatus query =  addGame(link);
         ArrayList<String> msg = new ArrayList<>();
         if (query == AddQueryStatus.OK){
-            msg.add("Игра успешно добавлена.");
+            msg.add("Игра успешно добавлена!");
             view.showMessage(msg);
         }
         else if (query == AddQueryStatus.ALREADY_EXISTS) {
-            msg.add("Не удалось добавить игру. Она уже существует в базе.");
+            msg.add("Эта игра уже отслеживается.");
             view.showError(msg);
         }
         else {
-            msg.add("Не удалось добавить игру. Не правильная ссылка.");
+            msg.add("Не удалось добавить игру. Проверьте корректность ссылки.");
             view.showError(msg);
         }
     }
+
     private void cmdCheck(String arg){
         ArrayList<String>msg = new ArrayList<>();
         msg.add("Not released yet.");
         view.showMessage(msg);
     }
-    private void cmdGet(String arg){
+    
+    private void cmdGet(String appId){
         ArrayList<String>msg = new ArrayList<>();
         AppInfo appInfo = dataBaseModel.getById(Integer.parseInt(appId));
         if (appInfo == null) {
@@ -49,10 +51,11 @@ public class Presenter {
         }
         PriceInfo priceInfo = appInfo.getPriceInfo();
         msg.add("Текущая цена товара составляет " +
-                (int) priceInfo.getFinalPrice() +
-                priceInfo.getCurrency());
+            (int) priceInfo.getFinalPrice() + " " +
+            priceInfo.getCurrency());
         view.showMessage(msg);
     }
+
     private void cmdHelp(){
         ArrayList<String>msg = new ArrayList<>();
         msg.add("Привет! Я - бот, мониторящий цены на игры в Steam");
@@ -80,7 +83,7 @@ public class Presenter {
     private AddQueryStatus addGame(String link) {
         int appId = parseAppId(link);
 
-        AppInfo info = steamApi.getGameInfo(appId, "RU");
+        AppInfo info = SteamApi.getGameInfo(appId, "RU");
         if (info == null) {
             return AddQueryStatus.INVALID_LINK;
         }
@@ -91,8 +94,15 @@ public class Presenter {
     }
 
     private int parseAppId(String link) {
+        /*
+         * Если ink - корректная ссылка на приложение в стиме,
+         * вернётся id этого приложения,
+         * иначе вернётся 0.
+         * Так как приложения с таким id в стиме не существует,
+         * при запросе к бд получим null.
+         */
         if (!link.startsWith("https://store.steampowered.com/app/")) {
-            return 0; // Если в ссылке насрано, возвращаем 0
+            return 0;
         }
         try {
             return Integer.parseInt(link.split("/")[4]);
