@@ -41,7 +41,13 @@ public class Presenter {
     }
     private void cmdGet(String arg){
         ArrayList<String>msg = new ArrayList<>();
-        PriceInfo priceInfo = dataBaseModel.getById(Integer.parseInt(arg)).getPriceInfo();
+        AppInfo appInfo = dataBaseModel.getById(Integer.parseInt(appId));
+        if (appInfo == null) {
+            msg.add("Приложение с таким id не отслеживается");
+            view.showError(msg);
+            return;
+        }
+        PriceInfo priceInfo = appInfo.getPriceInfo();
         msg.add("Текущая цена товара составляет " +
                 (int) priceInfo.getFinalPrice() +
                 priceInfo.getCurrency());
