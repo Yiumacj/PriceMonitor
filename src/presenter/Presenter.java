@@ -19,7 +19,7 @@ public class Presenter {
     }
 
     private void cmdAdd(String link){
-        AddQueryStatus query =  addGame(link);
+        AddQueryStatus query = addGame(link);
         ArrayList<String> msg = new ArrayList<>();
         if (query == AddQueryStatus.OK){
             msg.add("Игра успешно добавлена!");
@@ -44,20 +44,45 @@ public class Presenter {
     private void cmdGet(String link){
         int appId = parseAppId(link);
         ArrayList<String>msg = new ArrayList<>();
+
         if (appId == 0) {
             msg.add("Не удалось проверить игру. Проверьте корректность ссылки.");
             view.showError(msg);
         }
-        AppInfo appInfo = dataBaseModel.getById(appId);
-        if (appInfo == null) {
+
+        AppInfo oldAppInfo = dataBaseModel.getById(appId);
+
+        if (oldAppInfo == null) {
             msg.add("Приложение с таким id не отслеживается");
             view.showError(msg);
             return;
         }
-        PriceInfo priceInfo = appInfo.getPriceInfo();
+
+        AppInfo newAppInfo = SteamApi.getGameInfo(appId, "RU");
+
+        dataBaseModel.update(newAppInfo);
+
+        PriceInfo oldPriceInfo = oldAppInfo.getPriceInfo();
+        PriceInfo newPriceInfo = newAppInfo.getPriceInfo();
+        int priceDiff = (int) oldPriceInfo.getFinalPrice() - (int) newPriceInfo.getFinalPrice();
+        
         msg.add("Текущая цена товара составляет " +
-            (int) priceInfo.getFinalPrice() + " " +
-            priceInfo.getCurrency());
+            (int) newPriceInfo.getFinalPrice() + " " +
+            newPriceInfo.getCurrency());
+        if (priceDiff == 0) {
+            msg.add("Цена товара не изменилась");
+        }
+        else if (priceDiff < 0) {
+            msg.add("Цена товара уменьшилась на " +
+                Integer.toString(priceDiff) + " " +
+                newPriceInfo.getCurrency());
+        }
+        else {
+            msg.add("Цена товара увеличилась на " +
+                Integer.toString(-priceDiff) + " " +
+                newPriceInfo.getCurrency());
+        }
+        
         view.showMessage(msg);
     }
 
