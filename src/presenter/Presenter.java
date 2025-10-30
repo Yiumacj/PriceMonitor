@@ -35,15 +35,20 @@ public class Presenter {
         }
     }
 
-    private void cmdCheck(String arg){
+    private void cmdCheck(){
         ArrayList<String>msg = new ArrayList<>();
         msg.add("Not released yet.");
         view.showMessage(msg);
     }
     
-    private void cmdGet(String appId){
+    private void cmdGet(String link){
+        int appId = parseAppId(link);
         ArrayList<String>msg = new ArrayList<>();
-        AppInfo appInfo = dataBaseModel.getById(Integer.parseInt(appId));
+        if (appId == 0) {
+            msg.add("Не удалось проверить игру. Проверьте корректность ссылки.");
+            view.showError(msg);
+        }
+        AppInfo appInfo = dataBaseModel.getById(appId);
         if (appInfo == null) {
             msg.add("Приложение с таким id не отслеживается");
             view.showError(msg);
@@ -62,14 +67,14 @@ public class Presenter {
         msg.add("Вот список моих команд:");
         msg.add("/add <ссылка> - отправь мне ссылку на страницу игры, и я начну следить за её ценой");
         msg.add("/check - Расскажу тебе обо всех изменениях цен");
-        msg.add("/get - Cкажу тебе текущую цену товара");
+        msg.add("/get <ссылка> - Cкажу тебе текущую цену товара");
         view.showMessage(msg);
     }
 
     public void feedCommand(String[] command){
         switch (command[0]){
             case "/add" -> cmdAdd(command[1]);
-            case "/check" -> cmdCheck(command[1]);
+            case "/check" -> cmdCheck();
             case "/start", "/help" -> cmdHelp();
             case "/get" -> cmdGet(command[1]);
             default -> {
