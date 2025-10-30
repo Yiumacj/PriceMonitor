@@ -78,8 +78,7 @@ public class Presenter {
     }
 
     private AddQueryStatus addGame(String link) {
-        String[] words = link.split("/");
-        int appId = Integer.parseInt(words[4]);
+        int appId = parseAppId(link);
 
         AppInfo info = steamApi.getGameInfo(appId, "RU");
         if (info == null) {
@@ -89,5 +88,17 @@ public class Presenter {
             return AddQueryStatus.ALREADY_EXISTS;
         }
         return AddQueryStatus.OK;
+    }
+
+    private int parseAppId(String link) {
+        if (!link.startsWith("https://store.steampowered.com/app/")) {
+            return 0; // Если в ссылке насрано, возвращаем 0
+        }
+        try {
+            return Integer.parseInt(link.split("/")[4]);
+        }
+        catch (Exception exc) {
+            return 0;
+        }
     }
 }
