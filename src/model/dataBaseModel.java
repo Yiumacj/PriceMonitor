@@ -23,19 +23,19 @@ public class DataBaseModel {
         return this.findItemById(id);
     }
 
-    public boolean updateById(int id, int newPrice) {
-        AppInfo game = this.findItemById(id);
+    public boolean update(AppInfo newAppInfo) {
+        AppInfo game = this.findItemById(newAppInfo.getGameId());
         if (game == null) {
             return false;
         }
         monitoredGames.remove(game);
         monitoredGames.add(
-                new AppInfo(game.getGameId(), game.getName(), game.isFree(), game.getDescription(),
+                new AppInfo(newAppInfo.getGameId(), newAppInfo.getName(), newAppInfo.isFree(), newAppInfo.getDescription(),
                 new PriceInfo(
-                        newPrice,
-                        game.getPriceInfo().getInitialPrice(),
-                        game.getPriceInfo().getDiscountPercent(),
-                        game.getPriceInfo().getCurrency()
+                        newAppInfo.getPriceInfo().getFinalPrice(),
+                        newAppInfo.getPriceInfo().getInitialPrice(),
+                        newAppInfo.getPriceInfo().getDiscountPercent(),
+                        newAppInfo.getPriceInfo().getCurrency()
                 ))
         );
         return true;
