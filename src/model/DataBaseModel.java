@@ -1,16 +1,16 @@
 package model;
 
-import model.dataClasses.appInfo;
+import model.dataClasses.AppInfo;
 
 import java.util.ArrayList;
 
-public class dataBaseModel {
+public class DataBaseModel {
     // Плейсхолдер TODO заменить на нормальную бдшку
 
-    private final ArrayList<appInfo> monitoredGames = new ArrayList<>();
+    private final ArrayList<AppInfo> monitoredGames = new ArrayList<>();
 
-    private appInfo findItemById(int id) {
-        for (appInfo game: monitoredGames) {
+    private AppInfo findItemById(int id) {
+        for (AppInfo game: monitoredGames) {
             if (game.getGameId() == id) {
                 return game;
             }
@@ -18,22 +18,26 @@ public class dataBaseModel {
         return null;
     }
 
-    public appInfo getById(int id) {
+    public AppInfo getById(int id) {
         return this.findItemById(id);
     }
 
-    public boolean update(appInfo newAppInfo) {
-        appInfo game = this.findItemById(newAppInfo.getGameId());
+    public boolean update(AppInfo newAppInfo) {
+        AppInfo game = this.findItemById(newAppInfo.getGameId());
         if (game == null) {
             return false;
         }
         monitoredGames.remove(game);
-        monitoredGames.add(newAppInfo);
+        try {
+            monitoredGames.add(newAppInfo.clone());
+        } catch (CloneNotSupportedException e) {
+            return false;
+        }
         return true;
     }
 
     public boolean deleteById(int id) {
-        appInfo game = this.findItemById(id);
+        AppInfo game = this.findItemById(id);
         if (game == null) {
             return false;
         }
@@ -41,7 +45,7 @@ public class dataBaseModel {
         return true;
     }
 
-    public boolean add(appInfo game) {
+    public boolean add(AppInfo game) {
         if (this.findItemById(game.getGameId()) != null) {
             return false;
         }

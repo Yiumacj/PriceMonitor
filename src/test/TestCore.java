@@ -1,11 +1,11 @@
 package test;
 
-public class testCore
+public class TestCore
 {
 
-    public static void run (testVariations variation) {
-        essentialTesting eTesting = new essentialTesting();
-        additionalTesting aTesting = new additionalTesting();
+    public static void run (TestVariations variation) {
+        EssentialTesting eTesting = new EssentialTesting();
+        AdditionalTesting aTesting = new AdditionalTesting();
         switch (variation) {
             case ESSENTIALS_ONLY -> eTesting.run();
             case ADDITIONAL_ONLY -> aTesting.run();

@@ -1,5 +1,5 @@
-import test.testCore;
-import test.testVariations;
+import test.TestCore;
+import test.TestVariations;
 import view.ConsoleView;
 
 
@@ -9,7 +9,7 @@ void main() {
     + Add tests
     + Dataclasses refactor
      */
-    testCore.run(testVariations.ALL);
+    TestCore.run(TestVariations.ALL);
     ConsoleView bot = new ConsoleView();
     bot.run();
 }

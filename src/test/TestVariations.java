@@ -1,6 +1,6 @@
 package test;
 
-public enum testVariations {
+public enum TestVariations {
     ESSENTIALS_ONLY,
     ADDITIONAL_ONLY,
     ALL

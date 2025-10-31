@@ -3,16 +3,16 @@ package presenter;
 import java.util.ArrayList;
 
 import interfaces.view.IView;
-import model.dataBaseModel;
+import model.DataBaseModel;
 import model.dataClasses.*;
-import service.steamApi;
+import service.SteamApi;
 
 
 public class Presenter {
-    private final dataBaseModel dataBaseModel;
+    private final DataBaseModel dataBaseModel;
     private IView view;
     public Presenter(){
-        dataBaseModel = new dataBaseModel();
+        dataBaseModel = new DataBaseModel();
     }
 
     public void setView(IView view) {
@@ -20,13 +20,13 @@ public class Presenter {
     }
 
     private void cmdAdd(String link){
-        addQueryStatus query = addGame(link);
+        AddQueryStatus query = addGame(link);
         ArrayList<String> msg = new ArrayList<>();
-        if (query == addQueryStatus.OK){
+        if (query == AddQueryStatus.OK){
             msg.add("Игра успешно добавлена!");
             view.showMessage(msg);
         }
-        else if (query == addQueryStatus.ALREADY_EXISTS) {
+        else if (query == AddQueryStatus.ALREADY_EXISTS) {
             msg.add("Эта игра уже отслеживается.");
             view.showError(msg);
         }
@@ -51,7 +51,7 @@ public class Presenter {
             view.showError(msg);
         }
 
-        appInfo oldAppInfo = dataBaseModel.getById(appId);
+        AppInfo oldAppInfo = dataBaseModel.getById(appId);
 
         if (oldAppInfo == null) {
             msg.add("Приложение с таким id не отслеживается");
@@ -59,12 +59,12 @@ public class Presenter {
             return;
         }
 
-        appInfo newAppInfo = steamApi.getGameInfo(appId, "RU");
+        AppInfo newAppInfo = SteamApi.getGameInfo(appId, "RU");
 
         dataBaseModel.update(newAppInfo);
 
-        ariceInfo oldPriceInfo = oldAppInfo.getPriceInfo();
-        ariceInfo newPriceInfo = newAppInfo.getPriceInfo();
+        PriceInfo oldPriceInfo = oldAppInfo.getPriceInfo();
+        PriceInfo newPriceInfo = newAppInfo.getPriceInfo();
         int priceDiff = (int) oldPriceInfo.getFinalPrice() - (int) newPriceInfo.getFinalPrice();
         
         msg.add("Текущая цена товара составляет " +
@@ -111,17 +111,17 @@ public class Presenter {
         }
     }
 
-    private addQueryStatus addGame(String link) {
+    private AddQueryStatus addGame(String link) {
         int appId = parseAppId(link);
 
-        appInfo info = steamApi.getGameInfo(appId, "RU");
+        AppInfo info = SteamApi.getGameInfo(appId, "RU");
         if (info == null) {
-            return addQueryStatus.INVALID_LINK;
+            return AddQueryStatus.INVALID_LINK;
         }
         if (!dataBaseModel.add(info)){
-            return addQueryStatus.ALREADY_EXISTS;
+            return AddQueryStatus.ALREADY_EXISTS;
         }
-        return addQueryStatus.OK;
+        return AddQueryStatus.OK;
     }
 
     private int parseAppId(String link) {

@@ -1,13 +1,14 @@
 package model.dataClasses;
 
-public class appInfo {
+
+public class AppInfo implements Cloneable{
     private int gameId;
     private String name;
     private boolean isFree;
     private String description;
-    private ariceInfo priceInfo;
+    private PriceInfo priceInfo;
 
-    public appInfo(int gameId, String name, boolean isFree, String description, ariceInfo priceInfo) {
+    public AppInfo(int gameId, String name, boolean isFree, String description, PriceInfo priceInfo) {
         this.gameId = gameId;
         this.name = name;
         this.isFree = isFree;
@@ -15,12 +16,17 @@ public class appInfo {
         this.priceInfo = priceInfo;
     }
 
+    @Override
+    public AppInfo clone() throws CloneNotSupportedException {
+        return (AppInfo) super.clone();
+    }
+
     // Геттеры
     public int getGameId() { return gameId; }
     public String getName() { return name; }
     public boolean isFree() { return isFree; }
     public String getDescription() { return description; }
-    public ariceInfo getPriceInfo() { return priceInfo; }
+    public PriceInfo getPriceInfo() { return priceInfo; }
 
 
 }

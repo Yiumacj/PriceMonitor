@@ -2,7 +2,7 @@ package test;
 
 import org.junit.jupiter.api.Test;
 
-public class additionalTesting {
+public class AdditionalTesting {
     @Test
     public void run(){
         IO.println("Additional Testing");
