@@ -1,4 +1,7 @@
+import test.testCore;
+import test.testVariations;
 import view.ConsoleView;
+
 
 void main() {
     /*Todo
@@ -6,6 +9,7 @@ void main() {
     + Add tests
     + Dataclasses refactor
      */
+    testCore.run(testVariations.ALL);
     ConsoleView bot = new ConsoleView();
-    bot.start();
+    bot.run();
 }
