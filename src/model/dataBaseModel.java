@@ -1,17 +1,16 @@
 package model;
 
-import model.DataClasses.AppInfo;
-import model.DataClasses.PriceInfo;
+import model.dataClasses.appInfo;
 
 import java.util.ArrayList;
 
-public class DataBaseModel {
+public class dataBaseModel {
     // Плейсхолдер TODO заменить на нормальную бдшку
 
-    private final ArrayList<AppInfo> monitoredGames = new ArrayList<>();
+    private final ArrayList<appInfo> monitoredGames = new ArrayList<>();
 
-    private AppInfo findItemById(int id) {
-        for (AppInfo game: monitoredGames) {
+    private appInfo findItemById(int id) {
+        for (appInfo game: monitoredGames) {
             if (game.getGameId() == id) {
                 return game;
             }
@@ -19,30 +18,22 @@ public class DataBaseModel {
         return null;
     }
 
-    public AppInfo getById(int id) {
+    public appInfo getById(int id) {
         return this.findItemById(id);
     }
 
-    public boolean update(AppInfo newAppInfo) {
-        AppInfo game = this.findItemById(newAppInfo.getGameId());
+    public boolean update(appInfo newAppInfo) {
+        appInfo game = this.findItemById(newAppInfo.getGameId());
         if (game == null) {
             return false;
         }
         monitoredGames.remove(game);
-        monitoredGames.add(
-                new AppInfo(newAppInfo.getGameId(), newAppInfo.getName(), newAppInfo.isFree(), newAppInfo.getDescription(),
-                new PriceInfo(
-                        newAppInfo.getPriceInfo().getFinalPrice(),
-                        newAppInfo.getPriceInfo().getInitialPrice(),
-                        newAppInfo.getPriceInfo().getDiscountPercent(),
-                        newAppInfo.getPriceInfo().getCurrency()
-                ))
-        );
+        monitoredGames.add(newAppInfo);
         return true;
     }
 
     public boolean deleteById(int id) {
-        AppInfo game = this.findItemById(id);
+        appInfo game = this.findItemById(id);
         if (game == null) {
             return false;
         }
@@ -50,7 +41,7 @@ public class DataBaseModel {
         return true;
     }
 
-    public boolean add(AppInfo game) {
+    public boolean add(appInfo game) {
         if (this.findItemById(game.getGameId()) != null) {
             return false;
         }

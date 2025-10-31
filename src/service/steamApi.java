@@ -1,16 +1,16 @@
 package service;
 
-import model.DataClasses.AppInfo;
-import model.DataClasses.PriceInfo;
+import model.dataClasses.appInfo;
+import model.dataClasses.ariceInfo;
 
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-public class SteamApi {
+public class steamApi {
 
-    public static AppInfo getGameInfo(int gameId, String region) {
+    public static appInfo getGameInfo(int gameId, String region) {
         try {
             String urlString = "https://store.steampowered.com/api/appdetails?appids=" + gameId + "&cc=" + region;
             URL url = new URL(urlString);
@@ -40,7 +40,7 @@ public class SteamApi {
         }
     }
 
-    private static AppInfo parseJsonResponse(String json, int gameId) {
+    private static appInfo parseJsonResponse(String json, int gameId) {
         try {
             if (!json.contains("\"success\":true")) {
                 return null;
@@ -53,12 +53,12 @@ public class SteamApi {
 
             String description = extractValue(json, "\"detailed_description\"", 2);
 
-            PriceInfo priceInfo = null;
+            ariceInfo priceInfo = null;
             if (!isFree && json.contains("\"price_overview\"")) {
                 priceInfo = extractPriceInfo(json);
             }
 
-            return new AppInfo(gameId, name, isFree, description, priceInfo);
+            return new appInfo(gameId, name, isFree, description, priceInfo);
 
         } catch (Exception e) {
             return null;
@@ -83,7 +83,7 @@ public class SteamApi {
         return json.substring(valueStart, json.indexOf(",", valueStart));
     }
 
-    private static PriceInfo extractPriceInfo(String json) {
+    private static ariceInfo extractPriceInfo(String json) {
         try {
             int priceStart = json.indexOf("\"price_overview\"");
             if (priceStart == -1) return null;
@@ -97,7 +97,7 @@ public class SteamApi {
             double initialPrice = initialPriceStr != null ? Double.parseDouble(initialPriceStr) / 100 : -1;
             double finalPrice = finalPriceStr != null ? Double.parseDouble(finalPriceStr) / 100 : -1;
 
-            return new PriceInfo(finalPrice, initialPrice, discount, currency);
+            return new ariceInfo(finalPrice, initialPrice, discount, currency);
         } catch (Exception e) {
             return null;
         }
