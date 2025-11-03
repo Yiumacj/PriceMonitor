@@ -2,6 +2,7 @@ package model.DataClasses;
 
 import interfaces.model.IDataBaseItem;
 
+
 public class appInfo implements IDataBaseItem {
     private int id = 0;
     private String name = "";
