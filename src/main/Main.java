@@ -1,6 +1,4 @@
-import test.testCore;
-import test.testVariations;
-import view.ConsoleView;
+import main.view.ConsoleView;
 
 
 void main() {
@@ -10,7 +8,6 @@ void main() {
     + Add interface between api, db
     + Add 
      */
-    testCore.run(testVariations.ALL);
     ConsoleView bot = new ConsoleView();
     bot.run();
 }

@@ -1,17 +1,17 @@
-package view;
+package main.view;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import interfaces.view.IView;
-import presenter.presenter;
+import main.interfaces.view.IView;
+import main.presenter.Presenter;
 
 public class ConsoleView implements IView {
 
-    private final presenter presenter;
+    private final Presenter presenter;
 
     public ConsoleView() {
-        presenter = new presenter();
+        presenter = new Presenter();
         presenter.setView(this);
     }
 

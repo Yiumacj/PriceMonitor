@@ -1,4 +1,4 @@
-package interfaces.view;
+package main.interfaces.view;
 
 import java.util.ArrayList;
 
