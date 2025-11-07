@@ -25,6 +25,11 @@ public class Presenter {
         steamDB = new DataBaseModel(dbcfg[0], dbcfg[1], dbcfg[2]);
         steamApi = new SteamApi();
     }
+    //Constructor for testing
+    public Presenter(DataBaseModel param_steamDB, ISteamApi param_steamApi) {
+        steamDB = param_steamDB;
+        steamApi = param_steamApi;
+    }
 
     public void setView(IView view) {
         this.view = view;
