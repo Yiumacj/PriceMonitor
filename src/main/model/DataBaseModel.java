@@ -1,6 +1,6 @@
-package model;
+package main.model;
 
-import model.dataClasses.AppInfo;
+import main.model.dataClasses.AppInfo;
 
 import java.util.ArrayList;
 

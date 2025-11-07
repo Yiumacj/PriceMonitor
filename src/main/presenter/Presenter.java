@@ -1,11 +1,11 @@
-package presenter;
+package main.presenter;
 
 import java.util.ArrayList;
 
-import interfaces.view.IView;
-import model.DataBaseModel;
-import model.dataClasses.*;
-import service.SteamApi;
+import main.view.IView;
+import main.model.DataBaseModel;
+import main.model.dataClasses.*;
+import main.service.SteamApi;
 
 
 public class Presenter {

@@ -1,6 +1,4 @@
-import test.TestCore;
-import test.TestVariations;
-import view.ConsoleView;
+import main.view.ConsoleView;
 
 
 void main() {

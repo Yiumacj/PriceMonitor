@@ -1,4 +1,4 @@
-package model.dataClasses;
+package main.model.dataClasses;
 
 
 public class AppInfo implements Cloneable{

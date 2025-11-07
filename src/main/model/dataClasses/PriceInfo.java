@@ -1,6 +1,4 @@
-package model.dataClasses;
-
-import java.io.Serializable;
+package main.model.dataClasses;
 
 public class PriceInfo implements Cloneable {
     private double finalPrice;

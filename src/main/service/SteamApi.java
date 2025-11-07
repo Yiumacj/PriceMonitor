@@ -1,7 +1,7 @@
-package service;
+package main.service;
 
-import model.dataClasses.AppInfo;
-import model.dataClasses.PriceInfo;
+import main.model.dataClasses.AppInfo;
+import main.model.dataClasses.PriceInfo;
 
 
 import java.net.HttpURLConnection;
