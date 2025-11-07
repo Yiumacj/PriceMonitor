@@ -1,9 +1,7 @@
-package test.model;
+package model;
 
-import main.interfaces.model.IDataBaseObject;
-import main.model.DataBaseConnectorModel;
-import main.model.DataBaseModel;
-import main.model.DataClasses.AppInfo;
+import interfaces.model.IDataBaseObject;
+import model.DataClasses.AppInfo;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
@@ -24,7 +22,7 @@ public class DataBaseModelTest {
                          when(mock.get(IDataBaseObject.class, 42)).thenReturn(new AppInfo());
                      })) {
 
-            DataBaseModel model = new DataBaseModel("jdbc:mysql://localhost:3306/test", "user", "pass");
+            DataBaseModel model = new DataBaseModel("jdbc:mysql://localhost:3306/test", "", "");
             // add
             assertTrue(model.addByItem(item));
             // update

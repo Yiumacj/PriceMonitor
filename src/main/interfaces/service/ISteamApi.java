@@ -1,6 +1,6 @@
-package main.interfaces.service;
+package interfaces.service;
 
-import main.model.DataClasses.AppInfo;
+import model.DataClasses.AppInfo;
 
 public interface ISteamApi {
     AppInfo getGameInfo(int gameId, String region);

@@ -1,8 +1,7 @@
-package test.model;
+package model;
 
-import main.interfaces.model.IDataBaseObject;
-import main.model.DataBaseConnectorModel;
-import main.utils.HibernateUtil;
+import interfaces.model.IDataBaseObject;
+import utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,8 +18,8 @@ import static org.mockito.Mockito.*;
 public class DataBaseConnectorModelTest {
 
     private static final String URL = "jdbc:mysql://localhost:3306/test";
-    private static final String USER = "user";
-    private static final String PASS = "pass";
+    private static final String USER = "";
+    private static final String PASS = "";
 
     private DataBaseConnectorModel newConnector(SessionFactory sf, Session session) {
         when(sf.openSession()).thenReturn(session);

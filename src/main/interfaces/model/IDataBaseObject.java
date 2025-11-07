@@ -1,4 +1,4 @@
-package main.interfaces.model;
+package interfaces.model;
 
 public interface IDataBaseObject {
 

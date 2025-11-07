@@ -21,8 +21,8 @@
         <property name="hibernate.show_sql">false</property>
 
         <!-- Классы сущностей -->
-        <mapping class="main.model.DataClasses.AppInfo"/>
-        <mapping class="main.model.DataClasses.PriceInfo"/>
+        <mapping class="model.DataClasses.AppInfo"/>
+        <mapping class="model.DataClasses.PriceInfo"/>
 
     </session-factory>
 </hibernate-configuration>

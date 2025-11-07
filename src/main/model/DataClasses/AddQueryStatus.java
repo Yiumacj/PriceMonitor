@@ -1,4 +1,4 @@
-package main.model.DataClasses;
+package model.DataClasses;
 
 public enum AddQueryStatus
 {

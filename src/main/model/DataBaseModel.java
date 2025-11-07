@@ -1,6 +1,6 @@
-package main.model;
+package model;
 
-import main.interfaces.model.IDataBaseObject;
+import interfaces.model.IDataBaseObject;
 
 public class DataBaseModel {
     private final DataBaseConnectorModel source;

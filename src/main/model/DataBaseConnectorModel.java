@@ -1,10 +1,9 @@
-package main.model;
+package model;
 
-import main.interfaces.model.IDataBaseObject;
+import interfaces.model.IDataBaseObject;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import main.utils.HibernateUtil;
+import utils.HibernateUtil;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

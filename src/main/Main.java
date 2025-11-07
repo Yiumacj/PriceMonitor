@@ -1,4 +1,4 @@
-import main.view.ConsoleView;
+import view.ConsoleView;
 
 
 void main() {

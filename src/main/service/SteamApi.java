@@ -1,8 +1,8 @@
-package main.service;
+package service;
 
-import main.interfaces.service.ISteamApi;
-import main.model.DataClasses.AppInfo;
-import main.model.DataClasses.PriceInfo;
+import interfaces.service.ISteamApi;
+import model.DataClasses.AppInfo;
+import model.DataClasses.PriceInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 

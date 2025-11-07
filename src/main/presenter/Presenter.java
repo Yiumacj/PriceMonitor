@@ -1,15 +1,15 @@
-package main.presenter;
+package presenter;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import main.interfaces.service.ISteamApi;
-import main.interfaces.view.IView;
-import main.model.DataBaseModel;
-import main.model.DataClasses.*;
-import main.service.SteamApi;
+import interfaces.service.ISteamApi;
+import interfaces.view.IView;
+import model.DataBaseModel;
+import model.DataClasses.*;
+import service.SteamApi;
 
 public class Presenter {
     private final DataBaseModel steamDB;
