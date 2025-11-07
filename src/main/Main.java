@@ -4,10 +4,10 @@ import main.view.ConsoleView;
 void main() {
     /*Todo
     + Add logger
-    + Add tests
-    + Dataclasses refactor
+    + Add Test
+    + Add interface between api, db
+    + Add 
      */
-    TestCore.run(TestVariations.ALL);
     ConsoleView bot = new ConsoleView();
     bot.run();
 }

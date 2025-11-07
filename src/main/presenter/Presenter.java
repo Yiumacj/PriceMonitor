@@ -1,18 +1,29 @@
 package main.presenter;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import main.view.IView;
+import main.interfaces.service.ISteamApi;
+import main.interfaces.view.IView;
 import main.model.DataBaseModel;
-import main.model.dataClasses.*;
+import main.model.DataClasses.*;
 import main.service.SteamApi;
 
-
 public class Presenter {
-    private final DataBaseModel dataBaseModel;
+    private final DataBaseModel steamDB;
+    private final ISteamApi steamApi;
     private IView view;
     public Presenter(){
-        dataBaseModel = new DataBaseModel();
+        String[] dbcfg;
+        try {
+            dbcfg = Files.readAllLines(Paths.get("C:\\CFG_OOP\\configDB.txt")).getFirst().split(";");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        steamDB = new DataBaseModel(dbcfg[0], dbcfg[1], dbcfg[2]);
+        steamApi = new SteamApi();
     }
 
     public void setView(IView view) {
@@ -41,7 +52,7 @@ public class Presenter {
         msg.add("Not released yet.");
         view.showMessage(msg);
     }
-    
+
     private void cmdGet(String link){
         int appId = parseAppId(link);
         ArrayList<String>msg = new ArrayList<>();
@@ -51,7 +62,7 @@ public class Presenter {
             view.showError(msg);
         }
 
-        AppInfo oldAppInfo = dataBaseModel.getById(appId);
+        AppInfo oldAppInfo = steamDB.getById(AppInfo.class, appId);
 
         if (oldAppInfo == null) {
             msg.add("Приложение с таким id не отслеживается");
@@ -59,31 +70,31 @@ public class Presenter {
             return;
         }
 
-        AppInfo newAppInfo = SteamApi.getGameInfo(appId, "RU");
+        AppInfo newAppInfo = steamApi.getGameInfo(appId, "RU");
 
-        dataBaseModel.update(newAppInfo);
+        steamDB.updateByItem(newAppInfo);
 
         PriceInfo oldPriceInfo = oldAppInfo.getPriceInfo();
         PriceInfo newPriceInfo = newAppInfo.getPriceInfo();
         int priceDiff = (int) oldPriceInfo.getFinalPrice() - (int) newPriceInfo.getFinalPrice();
-        
+
         msg.add("Текущая цена товара составляет " +
-            (int) newPriceInfo.getFinalPrice() + " " +
-            newPriceInfo.getCurrency());
+                (int) newPriceInfo.getFinalPrice() + " " +
+                newPriceInfo.getCurrency());
         if (priceDiff == 0) {
             msg.add("Цена товара не изменилась");
         }
         else if (priceDiff < 0) {
             msg.add("Цена товара уменьшилась на " +
-                Integer.toString(priceDiff) + " " +
-                newPriceInfo.getCurrency());
+                    Integer.toString(priceDiff) + " " +
+                    newPriceInfo.getCurrency());
         }
         else {
             msg.add("Цена товара увеличилась на " +
-                Integer.toString(-priceDiff) + " " +
-                newPriceInfo.getCurrency());
+                    Integer.toString(-priceDiff) + " " +
+                    newPriceInfo.getCurrency());
         }
-        
+
         view.showMessage(msg);
     }
 
@@ -114,11 +125,11 @@ public class Presenter {
     private AddQueryStatus addGame(String link) {
         int appId = parseAppId(link);
 
-        AppInfo info = SteamApi.getGameInfo(appId, "RU");
+        AppInfo info = steamApi.getGameInfo(appId, "RU");
         if (info == null) {
             return AddQueryStatus.INVALID_LINK;
         }
-        if (!dataBaseModel.add(info)){
+        if (!steamDB.addByItem(info)){
             return AddQueryStatus.ALREADY_EXISTS;
         }
         return AddQueryStatus.OK;

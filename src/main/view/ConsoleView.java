@@ -3,6 +3,7 @@ package main.view;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import main.interfaces.view.IView;
 import main.presenter.Presenter;
 
 public class ConsoleView implements IView {
@@ -37,8 +38,8 @@ public class ConsoleView implements IView {
     public void run() {
         presenter.feedCommand(new String[]{"/start"});
         Scanner scanner = new Scanner(System.in);
-        
         while (true) {
+
             String input = scanner.nextLine().trim();
             String[] cmd = input.split("\\s+");
             presenter.feedCommand(cmd);

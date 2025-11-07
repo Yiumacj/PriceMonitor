@@ -1,16 +1,20 @@
 package main.service;
 
-import main.model.dataClasses.AppInfo;
-import main.model.dataClasses.PriceInfo;
-
+import main.interfaces.service.ISteamApi;
+import main.model.DataClasses.AppInfo;
+import main.model.DataClasses.PriceInfo;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.UUID;
 
-public class SteamApi {
+public class SteamApi implements ISteamApi {
+    private static final int MOD = (int) 1e9 + 7;
 
-    public static AppInfo getGameInfo(int gameId, String region) {
+    public AppInfo getGameInfo(int gameId, String region) {
         try {
             String urlString = "https://store.steampowered.com/api/appdetails?appids=" + gameId + "&cc=" + region;
             URL url = new URL(urlString);
@@ -35,70 +39,51 @@ public class SteamApi {
             return parseJsonResponse(response.toString(), gameId);
 
         } catch (Exception e) {
-
+            e.printStackTrace();
             return null;
         }
     }
 
-    private static AppInfo parseJsonResponse(String json, int gameId) {
+    private static AppInfo parseJsonResponse(String jsonString, int gameId) {
         try {
-            if (!json.contains("\"success\":true")) {
+            JSONObject root = new JSONObject(jsonString);
+            JSONObject gameData = root.getJSONObject(String.valueOf(gameId));
+
+            if (!gameData.getBoolean("success")) {
                 return null;
             }
 
-            String name = extractValue(json, "\"name\"", 1);
+            JSONObject data = gameData.getJSONObject("data");
+            String name = data.optString("name", null);
             if (name == null) return null;
 
-            boolean isFree = json.contains("\"is_free\":true");
-
-            String description = extractValue(json, "\"detailed_description\"", 2);
+            boolean isFree = data.optBoolean("is_free", false);
+            String description = data.optString("detailed_description", "");
 
             PriceInfo priceInfo = null;
-            if (!isFree && json.contains("\"price_overview\"")) {
-                priceInfo = extractPriceInfo(json);
+            if (!isFree && data.has("price_overview")) {
+                priceInfo = extractPriceInfo(data.getJSONObject("price_overview"));
             }
 
             return new AppInfo(gameId, name, isFree, description, priceInfo);
 
-        } catch (Exception e) {
+        } catch (JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    private static String extractValue(String json, String key, int quoteType) {
-        int keyIndex = json.indexOf(key);
-        if (keyIndex == -1) return null;
-
-        int valueStart = json.indexOf(":", keyIndex) + 1;
-        if (quoteType == 1) {
-            int quoteStart = json.indexOf("\"", valueStart) + 1;
-            int quoteEnd = json.indexOf("\"", quoteStart);
-            return json.substring(quoteStart, quoteEnd);
-        } else if (quoteType == 2) {
-            int quoteStart = json.indexOf("\"", valueStart) + 1;
-            int quoteEnd = json.indexOf("\"", quoteStart);
-            String value = json.substring(quoteStart, quoteEnd);
-            return value.replace("\\n", "\n").replace("\\r", "").replace("\\\"", "\"");
-        }
-        return json.substring(valueStart, json.indexOf(",", valueStart));
-    }
-
-    private static PriceInfo extractPriceInfo(String json) {
+    private static PriceInfo extractPriceInfo(JSONObject priceJson) {
         try {
-            int priceStart = json.indexOf("\"price_overview\"");
-            if (priceStart == -1) return null;
+            double initialPrice = priceJson.optDouble("initial", -1) / 100.0;
+            double finalPrice = priceJson.optDouble("final", -1) / 100.0;
+            int discount = priceJson.optInt("discount_percent", 0);
+            String currency = priceJson.optString("currency", "USD");
 
-            String finalPriceStr = extractValue(json.substring(priceStart), "\"final\"", 0);
-            String initialPriceStr = extractValue(json.substring(priceStart), "\"initial\"", 0);
-            String discountStr = extractValue(json.substring(priceStart), "\"discount_percent\"", 0);
-            String currency = extractValue(json.substring(priceStart), "\"currency\"", 1);
-
-            int discount = discountStr != null ? Integer.parseInt(discountStr) : 0;
-            double initialPrice = initialPriceStr != null ? Double.parseDouble(initialPriceStr) / 100 : -1;
-            double finalPrice = finalPriceStr != null ? Double.parseDouble(finalPriceStr) / 100 : -1;
-
-            return new PriceInfo(finalPrice, initialPrice, discount, currency);
-        } catch (Exception e) {
+            int id = UUID.randomUUID().hashCode() % MOD;
+            return new PriceInfo(id, finalPrice, initialPrice, discount, currency);
+        } catch (JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }

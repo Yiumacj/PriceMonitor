@@ -1,55 +1,26 @@
 package main.model;
 
-import main.model.dataClasses.AppInfo;
-
-import java.util.ArrayList;
+import main.interfaces.model.IDataBaseObject;
 
 public class DataBaseModel {
-    // Плейсхолдер TODO заменить на нормальную бдшку
+    private final DataBaseConnectorModel source;
 
-    private final ArrayList<AppInfo> monitoredGames = new ArrayList<>();
-
-    private AppInfo findItemById(int id) {
-        for (AppInfo game: monitoredGames) {
-            if (game.getGameId() == id) {
-                return game;
-            }
-        }
-        return null;
+    public DataBaseModel(String server, String user, String password) {
+        source = new DataBaseConnectorModel(server, user, password);
     }
 
-    public AppInfo getById(int id) {
-        return this.findItemById(id);
+    public boolean updateByItem(IDataBaseObject updatedItem) {
+        return source.update(updatedItem);
     }
 
-    public boolean update(AppInfo newAppInfo) {
-        AppInfo game = this.findItemById(newAppInfo.getGameId());
-        if (game == null) {
-            return false;
-        }
-        monitoredGames.remove(game);
-        try {
-            monitoredGames.add(newAppInfo.clone());
-        } catch (CloneNotSupportedException e) {
-            return false;
-        }
-        return true;
+    public boolean deleteByItem(IDataBaseObject item) {
+        return source.delete(item);
     }
 
-    public boolean deleteById(int id) {
-        AppInfo game = this.findItemById(id);
-        if (game == null) {
-            return false;
-        }
-        monitoredGames.remove(game);
-        return true;
+    public boolean addByItem(IDataBaseObject item) {
+        return source.insert(item);
     }
-
-    public boolean add(AppInfo game) {
-        if (this.findItemById(game.getGameId()) != null) {
-            return false;
-        }
-        this.monitoredGames.add(game);
-        return true;
+    public <T extends IDataBaseObject> T getById(Class<T> clazz, int id) {
+        return source.get(clazz, id);
     }
 }
