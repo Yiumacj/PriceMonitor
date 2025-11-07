@@ -30,5 +30,8 @@
     <orderEntry type="library" name="hibernate.orm.core" level="project" />
     <orderEntry type="library" name="h2database.h2" level="project" />
     <orderEntry type="library" name="json" level="project" />
+    <orderEntry type="library" name="mockito.junit.jupiter" level="project" />
+    <orderEntry type="library" name="mockito.inline" level="project" />
+    <orderEntry type="library" name="mockito.core" level="project" />
   </component>
 </module>
