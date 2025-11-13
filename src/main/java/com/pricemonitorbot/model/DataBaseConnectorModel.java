@@ -1,12 +1,11 @@
-package java.model;
+package com.pricemonitorbot.model;
 
+import com.pricemonitorbot.interfaces.model.IDataBaseObject;
+import com.pricemonitorbot.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import java.interfaces.model.IDataBaseObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.utils.HibernateUtil;
 
 public class DataBaseConnectorModel {
 
@@ -24,6 +23,7 @@ public class DataBaseConnectorModel {
         }
         return false;
     }
+
     public boolean openTransaction() {
         try {
             tx = session.beginTransaction();
@@ -33,6 +33,7 @@ public class DataBaseConnectorModel {
         }
         return true;
     }
+
     // Insert
     public boolean insert(IDataBaseObject data) {
         return insert(data, true);
@@ -55,8 +56,8 @@ public class DataBaseConnectorModel {
     public boolean update(IDataBaseObject data) {
         return update(data, true);
     }
+
     public boolean update(IDataBaseObject data, boolean autoCommit) {
-        Transaction tx = null;
         try {
             if (autoCommit) tx = session.beginTransaction();
             session.merge(data);
@@ -73,11 +74,11 @@ public class DataBaseConnectorModel {
     public boolean delete(IDataBaseObject data) {
         return delete(data, true);
     }
+
     public boolean delete(IDataBaseObject data, boolean autoCommit) {
-        Transaction tx = null;
         try {
             if (autoCommit) tx = session.beginTransaction();
-            session.delete(data);
+            session.remove(data);
             if (autoCommit) tx.commit();
             return true;
         } catch (Exception e) {
@@ -89,6 +90,11 @@ public class DataBaseConnectorModel {
 
     // Get
     public <T extends IDataBaseObject> T get(Class<T> clazz, int id) {
-        return session.get(clazz, id);
+        try {
+            return session.get(clazz, id);
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+            return null;
+        }
     }
 }

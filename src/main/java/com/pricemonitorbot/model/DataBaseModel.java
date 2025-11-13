@@ -1,6 +1,6 @@
-package java.model;
+package com.pricemonitorbot.model;
 
-import java.interfaces.model.IDataBaseObject;
+import com.pricemonitorbot.interfaces.model.IDataBaseObject;
 
 public class DataBaseModel {
     private final DataBaseConnectorModel source;

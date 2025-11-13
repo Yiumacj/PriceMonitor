@@ -1,11 +1,10 @@
-package java.service;
+package com.pricemonitorbot.service;
 
+import com.pricemonitorbot.interfaces.service.ISteamApi;
+import com.pricemonitorbot.model.dataclasses.AppInfo;
+import com.pricemonitorbot.model.dataclasses.PriceInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.interfaces.service.ISteamApi;
-import java.model.DataClasses.AppInfo;
-import java.model.DataClasses.PriceInfo;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;

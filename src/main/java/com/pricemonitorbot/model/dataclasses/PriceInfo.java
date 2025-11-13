@@ -1,14 +1,12 @@
-package java.model.DataClasses;
+package com.pricemonitorbot.model.dataclasses;
 
-import java.interfaces.model.IDataBaseObject;
-
+import com.pricemonitorbot.interfaces.model.IDataBaseObject;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "priceinfo")
 public class PriceInfo implements IDataBaseObject {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = 0;
     private double finalPrice = 0;
     private double initialPrice = 0;
@@ -25,7 +23,6 @@ public class PriceInfo implements IDataBaseObject {
 
     public PriceInfo() {}
 
-    // Геттеры
     public int getId() { return id; }
     public double getFinalPrice() { return finalPrice; }
     public double getInitialPrice() { return initialPrice; }

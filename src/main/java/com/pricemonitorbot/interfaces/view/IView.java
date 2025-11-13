@@ -1,4 +1,4 @@
-package java.interfaces.view;
+package com.pricemonitorbot.interfaces.view;
 
 import java.util.ArrayList;
 

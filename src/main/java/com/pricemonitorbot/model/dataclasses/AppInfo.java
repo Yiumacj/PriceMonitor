@@ -1,24 +1,21 @@
-package java.model.DataClasses;
+package com.pricemonitorbot.model.dataclasses;
 
-import java.interfaces.model.IDataBaseObject;
-
+import com.pricemonitorbot.interfaces.model.IDataBaseObject;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "appinfo")
 public class AppInfo implements IDataBaseObject {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = 0;
 
     private String name = "";
     private boolean isFree = false;
     private String description = "";
 
-    @OneToOne(cascade = CascadeType.ALL)  // <-- связь с ценой
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "priceinfo")
     private PriceInfo priceInfo = null;
-
 
     public AppInfo(int id, String name, boolean isFree, String description, PriceInfo priceInfo) {
         this.id = id;
@@ -30,12 +27,10 @@ public class AppInfo implements IDataBaseObject {
 
     public AppInfo(){}
 
-    // Геттеры
     public int getId() { return id; }
     public String getName() { return name; }
     public boolean isFree() { return isFree; }
     public String getDescription() { return description; }
     public PriceInfo getPriceInfo() { return priceInfo; }
-
 
 }

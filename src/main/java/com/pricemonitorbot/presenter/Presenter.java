@@ -1,29 +1,31 @@
-package java.presenter;
+package com.pricemonitorbot.presenter;
 
-import java.interfaces.service.ISteamApi;
-import java.interfaces.view.IView;
+import com.pricemonitorbot.interfaces.service.ISteamApi;
+import com.pricemonitorbot.interfaces.view.IView;
 import java.io.IOException;
-import java.model.DataBaseModel;
-import java.model.DataClasses.*;
+import com.pricemonitorbot.model.DataBaseModel;
+import com.pricemonitorbot.model.dataclasses.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.service.SteamApi;
+import com.pricemonitorbot.service.SteamApi;
 import java.util.ArrayList;
 
 public class Presenter {
     private final DataBaseModel steamDB;
     private final ISteamApi steamApi;
     private IView view;
+
     public Presenter(){
         String[] dbcfg;
         try {
-            dbcfg = Files.readAllLines(Paths.get("C:\\CFG_OOP\\configDB.txt")).getFirst().split(";");
+            dbcfg = Files.readAllLines(Paths.get("C:\\CFG_OOP\\configDB.txt")).get(0).split(";");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         steamDB = new DataBaseModel(dbcfg[0], dbcfg[1], dbcfg[2]);
         steamApi = new SteamApi();
     }
+
     //Constructor for testing
     public Presenter(DataBaseModel param_steamDB, ISteamApi param_steamApi) {
         steamDB = param_steamDB;
@@ -64,6 +66,7 @@ public class Presenter {
         if (appId == 0) {
             msg.add("Не удалось проверить игру. Проверьте корректность ссылки.");
             view.showError(msg);
+            return;
         }
 
         AppInfo oldAppInfo = steamDB.getById(AppInfo.class, appId);
@@ -114,10 +117,10 @@ public class Presenter {
 
     public void feedCommand(String[] command){
         switch (command[0]){
-            case "/add" -> cmdAdd(command[1]);
+            case "/add" -> cmdAdd(command.length > 1 ? command[1] : "");
             case "/check" -> cmdCheck();
             case "/start", "/help" -> cmdHelp();
-            case "/get" -> cmdGet(command[1]);
+            case "/get" -> cmdGet(command.length > 1 ? command[1] : "");
             default -> {
                 ArrayList<String> msg = new ArrayList<>();
                 msg.add("Моя Твоя не понимать");
@@ -140,13 +143,6 @@ public class Presenter {
     }
 
     private int parseAppId(String link) {
-        /*
-         * Если ink - корректная ссылка на приложение в стиме,
-         * вернётся id этого приложения,
-         * иначе вернётся 0.
-         * Так как приложения с таким id в стиме не существует,
-         * при запросе к бд получим null.
-         */
         if (!link.startsWith("https://store.steampowered.com/app/")) {
             return 0;
         }

@@ -1,7 +1,7 @@
-package java.view;
+package com.pricemonitorbot.view;
 
-import java.interfaces.view.IView;
-import java.presenter.Presenter;
+import com.pricemonitorbot.interfaces.view.IView;
+import com.pricemonitorbot.presenter.Presenter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,19 +17,19 @@ public class ConsoleView implements IView {
     @Override
     public void showMessage(ArrayList<String> msg) {
         for (String m : msg) {
-            IO.println(m);
+            System.out.println(m);
         }
     }
 
     @Override
     public void showWarning(ArrayList<String> msg) {
-        IO.println("Warning.");
+        System.out.println("Warning.");
         showMessage(msg);
     }
 
     @Override
     public void showError(ArrayList<String> msg) {
-        IO.println("Error occurred!");
+        System.out.println("Error occurred!");
         showMessage(msg);
     }
 
@@ -38,11 +38,9 @@ public class ConsoleView implements IView {
         presenter.feedCommand(new String[]{"/start"});
         Scanner scanner = new Scanner(System.in);
         while (true) {
-
             String input = scanner.nextLine().trim();
             String[] cmd = input.split("\\s+");
             presenter.feedCommand(cmd);
-
         }
     }
 }
