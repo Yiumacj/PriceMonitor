@@ -1,4 +1,4 @@
-package interfaces.model;
+package java.interfaces.model;
 
 public interface IDataBaseObject {
 

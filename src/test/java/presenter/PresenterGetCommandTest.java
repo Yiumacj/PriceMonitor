@@ -1,16 +1,15 @@
 package java.presenter;
 
-import interfaces.service.ISteamApi;
-import interfaces.view.IView;
-import model.DataBaseModel;
-import model.DataClasses.AppInfo;
-import model.DataClasses.PriceInfo;
-import presenter.Presenter;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.interfaces.service.ISteamApi;
+import java.interfaces.view.IView;
+import java.model.DataBaseModel;
+import java.model.DataClasses.AppInfo;
+import java.model.DataClasses.PriceInfo;
+import java.presenter.Presenter;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

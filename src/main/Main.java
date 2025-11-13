@@ -1,4 +1,4 @@
-import view.ConsoleView;
+import java.view.ConsoleView;
 
 
 void main() {

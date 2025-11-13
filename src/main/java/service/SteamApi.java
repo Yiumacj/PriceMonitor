@@ -1,11 +1,11 @@
-package service;
+package java.service;
 
-import interfaces.service.ISteamApi;
-import model.DataClasses.AppInfo;
-import model.DataClasses.PriceInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.interfaces.service.ISteamApi;
+import java.model.DataClasses.AppInfo;
+import java.model.DataClasses.PriceInfo;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;

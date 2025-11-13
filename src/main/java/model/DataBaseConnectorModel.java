@@ -1,12 +1,12 @@
-package model;
+package java.model;
 
-import interfaces.model.IDataBaseObject;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import utils.HibernateUtil;
 
+import java.interfaces.model.IDataBaseObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.utils.HibernateUtil;
 
 public class DataBaseConnectorModel {
 

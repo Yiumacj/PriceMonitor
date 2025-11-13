@@ -1,6 +1,6 @@
-package model;
+package java.model;
 
-import interfaces.model.IDataBaseObject;
+import java.interfaces.model.IDataBaseObject;
 
 public class DataBaseModel {
     private final DataBaseConnectorModel source;

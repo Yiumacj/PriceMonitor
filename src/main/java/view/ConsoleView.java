@@ -1,10 +1,9 @@
-package view;
+package java.view;
 
+import java.interfaces.view.IView;
+import java.presenter.Presenter;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import interfaces.view.IView;
-import presenter.Presenter;
 
 public class ConsoleView implements IView {
 

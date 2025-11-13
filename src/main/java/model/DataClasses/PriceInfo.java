@@ -1,6 +1,7 @@
-package model.DataClasses;
+package java.model.DataClasses;
 
-import interfaces.model.IDataBaseObject;
+import java.interfaces.model.IDataBaseObject;
+
 import jakarta.persistence.*;
 
 @Entity

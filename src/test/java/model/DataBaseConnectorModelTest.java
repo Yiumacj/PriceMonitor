@@ -1,8 +1,5 @@
 package java.model;
 
-import interfaces.model.IDataBaseObject;
-import model.DataBaseConnectorModel;
-import utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,6 +10,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+import java.interfaces.model.IDataBaseObject;
+import java.model.DataBaseConnectorModel;
+import java.utils.HibernateUtil;
 
 
 @ExtendWith(MockitoExtension.class)

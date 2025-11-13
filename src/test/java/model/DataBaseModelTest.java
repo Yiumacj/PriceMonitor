@@ -1,14 +1,15 @@
 package java.model;
 
-import interfaces.model.IDataBaseObject;
-import model.DataBaseConnectorModel;
-import model.DataBaseModel;
-import model.DataClasses.AppInfo;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+import java.interfaces.model.IDataBaseObject;
+import java.model.DataBaseConnectorModel;
+import java.model.DataBaseModel;
+import java.model.DataClasses.AppInfo;
 
 public class DataBaseModelTest {
 
