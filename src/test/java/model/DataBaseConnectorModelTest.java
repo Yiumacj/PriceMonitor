@@ -1,6 +1,7 @@
-package model;
+package java.model;
 
 import interfaces.model.IDataBaseObject;
+import model.DataBaseConnectorModel;
 import utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

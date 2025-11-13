@@ -1,6 +1,8 @@
-package model;
+package java.model;
 
 import interfaces.model.IDataBaseObject;
+import model.DataBaseConnectorModel;
+import model.DataBaseModel;
 import model.DataClasses.AppInfo;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedConstruction;

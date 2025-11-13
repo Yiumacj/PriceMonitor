@@ -1,9 +1,11 @@
-package presenter;
+package java.presenter;
 
 import interfaces.service.ISteamApi;
 import interfaces.view.IView;
 import model.DataBaseModel;
 import model.DataClasses.AppInfo;
+import presenter.Presenter;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
