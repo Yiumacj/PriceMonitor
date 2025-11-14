@@ -34,5 +34,8 @@
     <orderEntry type="library" name="mockito.junit.jupiter" level="project" />
     <orderEntry type="library" name="mockito.inline" level="project" />
     <orderEntry type="library" name="mockito.core" level="project" />
+    <orderEntry type="library" name="telegram.telegrambots.meta" level="project" />
+    <orderEntry type="library" name="telegram.telegrambots.longpolling" level="project" />
+    <orderEntry type="library" name="telegram.telegrambots.client" level="project" />
   </component>
 </module>

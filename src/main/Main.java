@@ -1,4 +1,5 @@
 import view.ConsoleView;
+import view.TelegramView;
 
 
 void main() {
@@ -8,6 +9,7 @@ void main() {
     + Add interface between api, db
     + Add 
      */
-    ConsoleView bot = new ConsoleView();
+    //ConsoleView bot = new ConsoleView();
+    TelegramView bot = new TelegramView();
     bot.run();
 }
