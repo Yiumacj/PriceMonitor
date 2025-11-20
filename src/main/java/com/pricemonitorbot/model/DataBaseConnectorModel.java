@@ -16,6 +16,11 @@ public class DataBaseConnectorModel {
         session = HibernateUtil.getSessionFactory(url, username, password).openSession();
     }
 
+    // Package-private constructor for tests: allow injecting a mock Session
+    DataBaseConnectorModel(Session session) {
+        this.session = session;
+    }
+
     public boolean closeSession() {
         if (session != null && session.isOpen()) {
             session.close();

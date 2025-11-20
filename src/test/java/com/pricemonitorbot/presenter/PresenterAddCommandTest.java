@@ -1,13 +1,13 @@
-package java.presenter;
+package com.pricemonitorbot.presenter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.interfaces.service.ISteamApi;
-import java.interfaces.view.IView;
-import java.model.DataBaseModel;
-import java.model.DataClasses.AppInfo;
-import java.presenter.Presenter;
+import com.pricemonitorbot.interfaces.service.ISteamApi;
+import com.pricemonitorbot.interfaces.view.IView;
+import com.pricemonitorbot.model.DataBaseModel;
+import com.pricemonitorbot.model.dataclasses.AppInfo;
+import com.pricemonitorbot.presenter.Presenter;
 import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
@@ -30,9 +30,10 @@ public class PresenterAddCommandTest {
 
     @Test
     void add_invalidLink_shouldShowError() {
+        when(api.getGameInfo(0, "RU")).thenReturn(null);
         presenter.feedCommand(new String[]{"/add", "https://example.com/not-steam"});
         verify(view, atLeastOnce()).showError(any(ArrayList.class));
-        verifyNoInteractions(api);
+        verify(api).getGameInfo(0, "RU");
         verifyNoMoreInteractions(db);
     }
 

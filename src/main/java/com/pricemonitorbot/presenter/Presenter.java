@@ -18,7 +18,7 @@ public class Presenter {
     public Presenter(){
         String[] dbcfg;
         try {
-            dbcfg = Files.readAllLines(Paths.get("C:\\CFG_OOP\\configDB.txt")).get(0).split(";");
+            dbcfg = Files.readAllLines(Paths.get("C:\\CFG_OOP\\configDB.txt")).get(0).split(";"); // TODO: Сделать нормально
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -83,22 +83,24 @@ public class Presenter {
 
         PriceInfo oldPriceInfo = oldAppInfo.getPriceInfo();
         PriceInfo newPriceInfo = newAppInfo.getPriceInfo();
-        int priceDiff = (int) oldPriceInfo.getFinalPrice() - (int) newPriceInfo.getFinalPrice();
+        int oldPrice = (int) oldPriceInfo.getFinalPrice();
+        int newPrice = (int) newPriceInfo.getFinalPrice();
+        int priceDiff = newPrice - oldPrice;
 
         msg.add("Текущая цена товара составляет " +
-                (int) newPriceInfo.getFinalPrice() + " " +
+                newPrice + " " +
                 newPriceInfo.getCurrency());
         if (priceDiff == 0) {
             msg.add("Цена товара не изменилась");
         }
         else if (priceDiff < 0) {
             msg.add("Цена товара уменьшилась на " +
-                    Integer.toString(priceDiff) + " " +
+                    (-priceDiff) + " " +
                     newPriceInfo.getCurrency());
         }
         else {
             msg.add("Цена товара увеличилась на " +
-                    Integer.toString(-priceDiff) + " " +
+                    priceDiff + " " +
                     newPriceInfo.getCurrency());
         }
 

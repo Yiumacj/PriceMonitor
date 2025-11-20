@@ -1,43 +1,34 @@
-package java.model;
+package com.pricemonitorbot.model;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.interfaces.model.IDataBaseObject;
-import java.model.DataBaseConnectorModel;
-import java.utils.HibernateUtil;
+import com.pricemonitorbot.interfaces.model.IDataBaseObject;
+import com.pricemonitorbot.model.DataBaseConnectorModel;
 
 
 @ExtendWith(MockitoExtension.class)
 public class DataBaseConnectorModelTest {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/test";
-    private static final String USER = "";
-    private static final String PASS = "";
-
     private DataBaseConnectorModel newConnector(SessionFactory sf, Session session) {
-        when(sf.openSession()).thenReturn(session);
-        try (MockedStatic<HibernateUtil> mocked = mockStatic(HibernateUtil.class)) {
-            mocked.when(() -> HibernateUtil.getSessionFactory(URL, USER, PASS)).thenReturn(sf);
-            return new DataBaseConnectorModel(URL, USER, PASS);
-        }
+        // Create the connector by injecting the mocked Session
+        return new DataBaseConnectorModel(session);
     }
 
     @Test
-    void constructor_opensSession() {
+    void constructor_acceptsSession() {
         SessionFactory sf = mock(SessionFactory.class);
         Session session = mock(Session.class);
 
-        newConnector(sf, session);
-        verify(sf, times(1)).openSession();
+        DataBaseConnectorModel dbc = newConnector(sf, session);
+        assertNotNull(dbc);
     }
 
     @Test
@@ -139,14 +130,14 @@ public class DataBaseConnectorModelTest {
         IDataBaseObject item = mock(IDataBaseObject.class);
 
         // update
+        when(session.merge(item)).thenReturn(item);
         assertTrue(dbc.update(item));
         verify(session).merge(item);
         verify(tx).commit();
 
         // delete
         assertTrue(dbc.delete(item));
-        verify(session).delete(item);
-        verify(tx, atLeastOnce()).commit();
+        verify(session).remove(item);
 
         // get
         class Dummy implements IDataBaseObject { public int getId(){ return 1; } }

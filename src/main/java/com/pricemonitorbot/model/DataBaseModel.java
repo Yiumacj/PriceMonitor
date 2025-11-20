@@ -9,6 +9,11 @@ public class DataBaseModel {
         source = new DataBaseConnectorModel(server, user, password);
     }
 
+    // Constructor for tests: inject a DataBaseConnectorModel directly
+    public DataBaseModel(DataBaseConnectorModel connector) {
+        source = connector;
+    }
+
     public boolean updateByItem(IDataBaseObject updatedItem) {
         return source.update(updatedItem);
     }

@@ -1,15 +1,15 @@
-package java.presenter;
+package com.pricemonitorbot.presenter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.interfaces.service.ISteamApi;
-import java.interfaces.view.IView;
-import java.model.DataBaseModel;
-import java.model.DataClasses.AppInfo;
-import java.model.DataClasses.PriceInfo;
-import java.presenter.Presenter;
+import com.pricemonitorbot.interfaces.service.ISteamApi;
+import com.pricemonitorbot.interfaces.view.IView;
+import com.pricemonitorbot.model.DataBaseModel;
+import com.pricemonitorbot.model.dataclasses.AppInfo;
+import com.pricemonitorbot.model.dataclasses.PriceInfo;
+import com.pricemonitorbot.presenter.Presenter;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
