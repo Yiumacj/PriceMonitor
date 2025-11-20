@@ -24,8 +24,8 @@ dependencies {
     // JSON parsing
     implementation 'org.json:json:20230227'
     
-    // Database driver (adjust based on your database)
-    implementation 'org.postgresql:postgresql:42.7.0'
+    // Database driver (MySQL)
+    implementation 'com.mysql:mysql-connector-j:8.2.0'
     
     // Logging
     implementation 'org.slf4j:slf4j-api:2.0.11'
