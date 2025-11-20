@@ -1,6 +1,7 @@
 package com.pricemonitorbot.app;
 
 import com.pricemonitorbot.view.ConsoleView;
+import com.pricemonitorbot.view.TelegramView;
 
 public class Main {
     /*Todo
@@ -10,7 +11,8 @@ public class Main {
     + Add 
      */
     public static void main(String[] args) {
-        ConsoleView bot = new ConsoleView();
+        //ConsoleView bot = new ConsoleView();
+        TelegramView bot = new TelegramView();
         bot.run();
     }
 }

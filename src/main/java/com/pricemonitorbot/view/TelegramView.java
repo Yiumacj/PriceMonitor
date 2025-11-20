@@ -1,7 +1,7 @@
-package view;
+package com.pricemonitorbot.view;
 
-import interfaces.view.IView;
-import presenter.Presenter;
+import com.pricemonitorbot.interfaces.view.IView;
+import com.pricemonitorbot.presenter.Presenter;
 
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.generics.TelegramClient;

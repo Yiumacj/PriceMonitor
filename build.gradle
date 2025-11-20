@@ -27,6 +27,11 @@ dependencies {
     // Database driver (MySQL)
     implementation 'com.mysql:mysql-connector-j:8.2.0'
     
+    // Telegram Bot API
+    implementation 'org.telegram:telegrambots-client:9.2.0'
+    implementation 'org.telegram:telegrambots-longpolling:9.2.0'
+    implementation 'org.telegram:telegrambots-meta:9.2.0'
+    
     // Logging
     implementation 'org.slf4j:slf4j-api:2.0.11'
     implementation 'org.slf4j:slf4j-simple:2.0.11'
