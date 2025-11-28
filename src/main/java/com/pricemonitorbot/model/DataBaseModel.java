@@ -5,11 +5,10 @@ import com.pricemonitorbot.interfaces.model.IDataBaseObject;
 public class DataBaseModel {
     private final DataBaseConnectorModel source;
 
-    public DataBaseModel(String server, String user, String password) {
-        source = new DataBaseConnectorModel(server, user, password);
+    public DataBaseModel(String database, String server, String user, String password) {
+        source = new DataBaseConnectorModel(server+"/"+database, user, password);
     }
 
-    // Constructor for tests: inject a DataBaseConnectorModel directly
     public DataBaseModel(DataBaseConnectorModel connector) {
         source = connector;
     }

@@ -1,14 +1,9 @@
-<<<<<<< HEAD:src/main/view/TelegramView.java
-package view;
 
-import interfaces.view.IView;
-import presenter.Presenter;
-=======
 package com.pricemonitorbot.view;
 
+import com.pricemonitorbot.config.AppConfig;
 import com.pricemonitorbot.interfaces.view.IView;
 import com.pricemonitorbot.presenter.Presenter;
->>>>>>> 036e5efb65f5b6fe213054ba45f6184742c9ad68:src/main/java/com/pricemonitorbot/view/TelegramView.java
 
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
@@ -44,15 +39,15 @@ public class TelegramView implements IView, LongPollingUpdateConsumer {
 
     private Long currentChatId;
 
-    // ===== Возможность подключения кнопок =====
     private Function<Long, ReplyKeyboard> replyKeyboardSupplier;
     private BiFunction<Long, String, InlineKeyboardMarkup> inlineKeyboardSupplier;
     private boolean attachKeyboardToAllMessages = false;
 
     public TelegramView() {
+        AppConfig appConfig = AppConfig.getInstance();
         this(
-                "",
-                ""
+                appConfig.getTelegramToken(),
+                appConfig.getTelegramUsername()
         );
     }
 

@@ -7,14 +7,14 @@ import jakarta.persistence.*;
 @Table(name = "priceinfo")
 public class PriceInfo implements IDataBaseObject {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = 0;
     private double finalPrice = 0;
     private double initialPrice = 0;
     private int discountPercent = 0;
     private String currency = "";
 
-    public PriceInfo(int id, double finalPrice, double initialPrice, int discountPercent, String currency) {
-        this.id = id;
+    public PriceInfo(double finalPrice, double initialPrice, int discountPercent, String currency) {
         this.finalPrice = finalPrice;
         this.initialPrice = initialPrice;
         this.discountPercent = discountPercent;

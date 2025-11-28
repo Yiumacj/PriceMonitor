@@ -14,7 +14,7 @@ public class AppInfo implements IDataBaseObject {
     private String description = "";
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "priceinfo")
+    @JoinColumn(name = "priceinfo", nullable = false)
     private PriceInfo priceInfo = null;
 
     public AppInfo(int id, String name, boolean isFree, String description, PriceInfo priceInfo) {

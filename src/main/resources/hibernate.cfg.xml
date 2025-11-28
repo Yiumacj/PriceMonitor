@@ -21,8 +21,8 @@
         <property name="hibernate.show_sql">false</property>
 
         <!-- Классы сущностей -->
-        <mapping class="model.DataClasses.AppInfo"/>
-        <mapping class="model.DataClasses.PriceInfo"/>
+        <mapping class="com.pricemonitorbot.model.dataclasses.AppInfo"/>
+        <mapping class="com.pricemonitorbot.model.dataclasses.PriceInfo"/>
 
     </session-factory>
 </hibernate-configuration>

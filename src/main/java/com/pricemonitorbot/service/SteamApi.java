@@ -43,6 +43,7 @@ public class SteamApi implements ISteamApi {
         }
     }
 
+
     private static AppInfo parseJsonResponse(String jsonString, int gameId) {
         try {
             JSONObject root = new JSONObject(jsonString);
@@ -79,8 +80,7 @@ public class SteamApi implements ISteamApi {
             int discount = priceJson.optInt("discount_percent", 0);
             String currency = priceJson.optString("currency", "USD");
 
-            int id = UUID.randomUUID().hashCode() % MOD;
-            return new PriceInfo(id, finalPrice, initialPrice, discount, currency);
+            return new PriceInfo(finalPrice, initialPrice, discount, currency);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

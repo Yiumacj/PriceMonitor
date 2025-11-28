@@ -1,5 +1,6 @@
 package com.pricemonitorbot.presenter;
 
+import com.pricemonitorbot.config.AppConfig;
 import com.pricemonitorbot.interfaces.service.ISteamApi;
 import com.pricemonitorbot.interfaces.view.IView;
 import java.io.IOException;
@@ -16,17 +17,11 @@ public class Presenter {
     private IView view;
 
     public Presenter(){
-        String[] dbcfg;
-        try {
-            dbcfg = Files.readAllLines(Paths.get("C:\\CFG_OOP\\configDB.txt")).get(0).split(";"); // TODO: Сделать нормально
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        steamDB = new DataBaseModel(dbcfg[0], dbcfg[1], dbcfg[2]);
+        AppConfig appConfig = AppConfig.getInstance();
+        steamDB = new DataBaseModel("steamdb", appConfig.getDbUrl(), appConfig.getDbUser(), appConfig.getDbPassword());
         steamApi = new SteamApi();
     }
 
-    //Constructor for testing
     public Presenter(DataBaseModel param_steamDB, ISteamApi param_steamApi) {
         steamDB = param_steamDB;
         steamApi = param_steamApi;
